@@ -1,0 +1,68 @@
+{
+    "navLinks": [
+      { "id": "problem", "label": "Problem Statement" },
+      { "id": "overview", "label": "Solution Overview" },
+      { "id": "steps", "label": "Step-by-Step Explanation" },
+      { "id": "algorithm", "label": "Algorithm" },
+      { "id": "explanation", "label": "Detailed Explanation" },
+      { "id": "video", "label": "Video Explanation" },
+      { "id": "faq", "label": "FAQs" }
+    ],
+    "problem": {
+      "id": "problem",
+      "title": "Problem Statement",
+      "content": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.",
+      "example": {
+        "input": "Input: nums = [2,7,11,15], target = 9",
+        "output": "Output: [0,1]",
+        "explanation": "Explanation: Because nums[0] + nums[1] == 9, we return [0, 1]."
+      }
+    },
+    "overview": {
+      "id": "overview",
+      "title": "Solution Overview",
+      "content": "To solve the Two Sum problem, we can use a hashmap (also known as a dictionary or hash table) to keep track of the numbers we've seen and their indices. The key insight is that for each number, we can check if the complement (i.e., the difference between the target and the current number) already exists in the hashmap. If it does, we have found the solution. If not, we add the number and its index to the hashmap."
+    },
+    "steps": {
+      "id": "steps",
+      "title": "Step-by-Step Explanation",
+      "steps": [
+        "Initialize a hashmap: Create an empty hashmap to store the numbers we encounter and their indices.",
+        "Iterate through the array: Loop through the array of numbers, keeping track of the current index.",
+        "Calculate the complement: For each number, calculate the complement by subtracting the number from the target (i.e., complement = target - nums[i]).",
+        "Check the hashmap: If the complement is already in the hashmap, we have found the two numbers that add up to the target. Return their indices.",
+        "Add to the hashmap: If the complement is not in the hashmap, add the current number and its index to the hashmap.",
+        "Return the result: Once the loop is complete, the solution has been found and returned."
+      ]
+    },
+    "algorithm": {
+      "id": "algorithm",
+      "title": "Algorithm",
+      "code": "function twoSum(nums, target) {\n    // Step 1: Create an empty hashmap to store numbers and their indices\n    const map = new Map();\n\n    // Step 2: Loop through each number in the array\n    for (let i = 0; i < nums.length; i++) {\n        const complement = target - nums[i];\n\n        // Step 3: Check if the complement exists in the hashmap\n        if (map.has(complement)) {\n            // Step 4: If found, return the indices\n            return [map.get(complement), i];\n        }\n\n        // Step 5: If not found, add the number and its index to the hashmap\n        map.set(nums[i], i);\n    }\n\n    // Step 6: Return an empty array if no solution is found (though the problem guarantees a solution)\n    return [];\n}"
+    },
+    "explanation": {
+      "id": "explanation",
+      "title": "Detailed Explanation",
+      "content": "The algorithm uses a hashmap to store each number's index as we iterate through the array. The key insight is that for each number nums[i], we want to check if the complement (i.e., target - nums[i]) has already been seen in the array. If it has, then the pair of indices (i.e., the current index i and the index of the complement in the hashmap) form a solution."
+    },
+    "video": {
+      "id": "video",
+      "title": "Video Explanation",
+      "videoUrl": "https://www.youtube.com/embed/Eqf1VsGe9O8"
+    },
+    "faq": [
+      {
+        "question": "Q1: What if the array has negative numbers?",
+        "answer": "A: The algorithm still works with negative numbers because the complement is calculated as target - nums[i], so it can correctly handle cases where the target is positive or negative."
+      },
+      {
+        "question": "Q2: What is the time complexity of this solution?",
+        "answer": "A: The time complexity is O(n), where n is the number of elements in the array. This is because we are iterating through the array once and performing constant-time operations during each iteration."
+      },
+      {
+        "question": "Q3: Can this algorithm be optimized further?",
+        "answer": "A: This algorithm is already optimal in terms of time complexity for the problem as stated. The only improvement would be in reducing space complexity, but that would typically require sacrificing time complexity."
+      }
+    ]
+  }
+  
