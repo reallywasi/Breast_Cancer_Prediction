@@ -1,0 +1,171 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Breast Cancer Prediction Model Using PCA, SVM and Logistical Regression}
+\author{Mohammad Wasi , Moulik Verma , Lucky Singh}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Breast cancer is a leading cause of death among women, and early diagnosis is crucial for effective treatment. This project focuses on developing a machine learning model to accurately predict whether a tumor is malignant or benign using medical data. The dataset used contains high-dimensional features related to cell nuclei characteristics. To handle the complexity of this data, we applied Principal Component Analysis (PCA) for dimensionality reduction, retaining only the most critical features while eliminating noise and reducing computational overhead.
+
+Initially, we employed Logistic Regression as our baseline classifier, achieving an accuracy of 90\%. However, to further enhance the model’s performance, we implemented a Support Vector Machine (SVM), which increased the accuracy to 94\%. The SVM model was particularly effective due to its ability to handle non-linear patterns in the data.
+
+The results demonstrate that combining PCA for dimensionality reduction with robust classification algorithms like SVM can significantly improve the predictive accuracy of breast cancer diagnoses. This approach not only enhances computational efficiency but also provides a reliable tool for medical professionals in early detection efforts. The project underscores the potential of machine learning in healthcare, highlighting how predictive models can contribute to better patient outcomes through timely and accurate diagnoses.
+\end{abstract}
+
+\section{Introduction}
+Breast cancer is one of the most prevalent forms of cancer affecting women worldwide. Early detection plays a crucial role in improving treatment outcomes and survival rates. Traditional diagnostic methods often rely on manual interpretation of medical images and histopathological data, which can be subjective and prone to errors. With the advent of machine learning, there is a growing interest in developing automated systems that can assist healthcare professionals in making more accurate and timely diagnoses.
+
+This project aims to create a predictive model that classifies breast tumors as malignant or benign using machine learning techniques. By leveraging a well-established dataset and applying advanced algorithms, we seek to enhance diagnostic accuracy and provide insights that can support medical professionals in their decision-making processes.
+
+\section{Problem Statement}
+Breast cancer is one of the most prevalent forms of cancer among women globally, and timely detection is critical for increasing survival rates. Traditional diagnostic methods, while effective, often involve manual interpretation of complex medical data, which can lead to inaccuracies or delays in diagnosis. Furthermore, the high dimensionality of medical datasets, with numerous features representing various physical characteristics, adds another layer of complexity to the problem.
+
+This project aims to address the challenge of accurately predicting whether a breast tumor is malignant (cancerous) or benign (non-cancerous) by leveraging machine learning techniques. The primary issues to be solved include:
+
+\begin{itemize}
+    \item Handling High-Dimensional Data: Medical datasets often have a large number of features, making it computationally expensive and prone to overfitting. Dimensionality reduction is required to retain important information while discarding irrelevant or redundant data.
+    \item Improving Predictive Accuracy: While standard machine learning models such as Logistic Regression offer reasonable accuracy, there is a need to push the boundaries to achieve higher precision in diagnosis, especially given the life-or-death consequences of a cancer diagnosis.
+    \item Efficient Classification: The project seeks to develop an efficient and reliable classification model capable of distinguishing between malignant and benign breast tumors based on patient data, with the goal of achieving high accuracy while maintaining interpretability and computational efficiency.
+\end{itemize}
+
+\section{Literature Review}
+The application of machine learning in medical diagnostics, especially in breast cancer prediction, has gained significant attention over the past decade. Several research efforts have focused on using algorithms to improve the accuracy of cancer classification, particularly when distinguishing between malignant and benign tumors. Below is a review of key studies and methodologies relevant to this project.
+
+\subsection{Breast Cancer Detection using Machine Learning}
+Numerous studies have employed machine learning models to improve breast cancer diagnosis. W.H. Wolberg et al. (1994) pioneered the use of the Wisconsin Diagnostic Breast Cancer (WDBC) dataset for classification tasks, leveraging basic classifiers like Logistic Regression and Decision Trees. Their early work demonstrated the potential of machine learning in healthcare but was limited by the dimensionality of the dataset, leading to the exploration of more sophisticated models.
+
+\subsection{Dimensionality Reduction Techniques}
+High-dimensional datasets, like those used in breast cancer research, often contain redundant or irrelevant features that can negatively affect model performance. Principal Component Analysis (PCA) has been widely adopted as an effective dimensionality reduction technique in medical applications. S. Jolliffe (2002) provided foundational work on PCA, highlighting its ability to transform a large number of variables into principal components, which capture the most significant variance in the data while reducing noise. Several modern studies, such as that by Zhou et al. (2019), have used PCA to preprocess breast cancer data, improving classification accuracy and reducing computational load.
+
+\subsection{Classification Algorithms for Cancer Prediction}
+A variety of machine learning algorithms have been applied to the task of breast cancer classification. Logistic Regression, one of the simplest classifiers, has been a baseline model for numerous studies. While effective, its linear nature often limits its performance on complex medical datasets.
+
+Support Vector Machines (SVM) have been shown to outperform traditional methods, especially when combined with kernel functions to capture non-linear relationships in the data. A study by Akay (2009) compared SVMs with other classifiers like k-Nearest Neighbors and Decision Trees, finding that SVM consistently achieved higher accuracy in predicting breast cancer diagnoses. SVM’s ability to separate data points using a hyperplane in high-dimensional spaces makes it well-suited for this type of classification task.
+
+\subsection{Ensemble Methods and Deep Learning}
+Recent developments in ensemble methods, such as Random Forests and Gradient Boosting, have further enhanced predictive accuracy in breast cancer classification. In addition, deep learning approaches like Convolutional Neural Networks (CNNs) have been employed for image-based diagnosis, but their application to tabular data, such as the WDBC dataset, remains limited due to the need for large amounts of data and computational power.
+
+\subsection{Comparative Studies and Accuracy Benchmarks}
+In terms of accuracy, studies using traditional machine learning models often report results in the range of 85-90\%. However, the incorporation of more advanced techniques like SVM, along with dimensionality reduction strategies such as PCA, has pushed accuracy rates to 94\% or higher, as seen in recent research by Gandomkar et al. (2021). This emphasizes the need for both dimensionality reduction and robust classifiers to achieve superior diagnostic performance.
+
+\section{Data Collection}
+The dataset used for this breast cancer prediction project was sourced from Kaggle and is a well-known dataset for breast cancer diagnostics, commonly referred to as the Wisconsin Diagnostic Breast Cancer (WDBC) dataset. This dataset contains a variety of features derived from images of fine needle aspirates (FNA) of breast masses, which are used to classify the masses as either malignant (cancerous) or benign (non-cancerous).
+
+\subsection{Dataset Overview}
+\begin{itemize}
+    \item \textbf{Source}: Kaggle - Wisconsin Diagnostic Breast Cancer Dataset
+    \item \textbf{Number of Samples}: 569
+    \item \textbf{Number of Features}: 30
+    \item \textbf{Target Classes}: 
+    \begin{itemize}
+        \item Malignant (coded as 1)
+        \item Benign (coded as 0)
+    \end{itemize}
+\end{itemize}
+
+\subsection{Feature Description}
+The dataset consists of 30 numerical features computed from a digitized image of a fine needle aspirate of a breast mass. These features represent various characteristics of the cell nuclei present in the image. Each feature is a real-valued number, and they fall into the following categories:
+
+\begin{itemize}
+    \item \textbf{Radius}: Mean radius of the cell nuclei.
+    \item \textbf{Texture}: Standard deviation of gray-scale values of the cell nuclei.
+    \item \textbf{Perimeter}: Perimeter of the cell nuclei.
+    \item \textbf{Area}: Area enclosed by the cell nuclei.
+    \item \textbf{Smoothness}: Local variation in the radius lengths.
+    \item \textbf{Compactness}: How closely packed the cell nuclei are, defined as \( \frac{\text{Perimeter}^2}{\text{Area}} - 1.0 \).
+    \item \textbf{Concavity}: Severity of concave portions of the cell contour.
+    \item \textbf{Concave Points}: Number of concave portions of the cell contour.
+    \item \textbf{Symmetry}: Symmetry of the cell nuclei.
+    \item \textbf{Fractal Dimension}: Measure of the complexity of the cell nuclei contours, which is a dimensionless value.
+\end{itemize}
+
+Each of these features is computed in three different ways:
+\begin{itemize}
+    \item \textbf{Mean}: The average value of the feature across all nuclei in the image.
+    \item \textbf{Standard Error}: A measure of how much the feature varies from one cell to another.
+    \item \textbf{Worst}: The highest (worst) value of the feature observed in the image.
+\end{itemize}
+
+As a result, the total of 30 features includes:
+Mean Radius, Mean Texture, Mean Perimeter, Mean Area, Mean Smoothness, Mean Compactness, Mean Concavity, Mean Concave Points, Mean Symmetry, Mean Fractal Dimension, Standard Error for each of these features, and the Worst for each feature.
+
+\subsection{Data Preprocessing}
+The data preprocessing steps included handling any missing values, scaling the features to ensure they are on a similar scale, and splitting the dataset into training and test sets to evaluate model performance.
+
+\section{Methodology}
+The goal of this project is to develop a machine learning model that accurately predicts whether a breast tumor is malignant or benign. The methodology adopted involves several steps, including data preprocessing, dimensionality reduction, model selection, training, and evaluation. Below is a detailed breakdown of the steps followed in the development of the model.
+
+\subsection{1. Data Preprocessing}
+Preprocessing is a crucial step to ensure the dataset is clean and ready for analysis. The following preprocessing steps were performed:
+\begin{itemize}
+    \item \textbf{Handling Missing Data}: The dataset did not contain any missing values, so no further actions were required in this regard.
+    \item \textbf{Feature Scaling}: To ensure all features contributed equally to the model, \textbf{Min-Max Normalization} was applied to scale the feature values between 0 and 1. This step is important because many machine learning algorithms perform better when features are on a similar scale, particularly distance-based models like Support Vector Machines (SVM).
+\end{itemize}
+
+\subsection{2. Dimensionality Reduction with Principal Component Analysis (PCA)}
+The WDBC dataset contains 30 features, which can make the model prone to overfitting and increase computational complexity. To reduce the dimensionality of the dataset while retaining the most significant information, \textbf{Principal Component Analysis (PCA)} was applied. PCA works by transforming the original features into a smaller set of uncorrelated components that capture most of the variance in the data.
+
+The following steps were taken for PCA:
+\begin{itemize}
+    \item \textbf{Covariance Matrix Calculation}: The covariance matrix of the normalized data was computed to understand how the features varied with respect to each other.
+    \item \textbf{Eigenvalue Decomposition}: Eigenvalues and eigenvectors were extracted from the covariance matrix to identify the principal components.
+    \item \textbf{Component Selection}: The principal components with the highest eigenvalues were selected, capturing approximately 95\% of the variance in the dataset. This reduced the original 30 features to about 10 principal components, significantly lowering the dimensionality without losing critical information.
+\end{itemize}
+
+\subsection{3. Model Selection}
+Two machine learning models were selected for this task:
+\begin{itemize}
+    \item \textbf{Logistic Regression}: A baseline model was first built using \textbf{Logistic Regression}, which is a simple yet effective classification algorithm. Logistic Regression works by estimating the probability that a given instance belongs to a particular class (in this case, malignant or benign). It was used to establish a baseline accuracy for the model.
+    \item \textbf{Support Vector Machine (SVM)}: After evaluating Logistic Regression, an \textbf{SVM} model was implemented. SVM is a powerful algorithm that performs well on high-dimensional data and is particularly useful for binary classification tasks like this one. The model works by finding the optimal hyperplane that best separates the data points into their respective classes. Given the complex nature of medical data, \textbf{Radial Basis Function (RBF)} kernel was used with SVM to capture non-linear patterns.
+\end{itemize}
+
+\subsection{4. Model Training}
+Both Logistic Regression and SVM models were trained using the \textbf{training set} (80\% of the dataset). The key steps involved:
+\begin{itemize}
+    \item \textbf{Training Logistic Regression}: Logistic Regression was trained using the normalized and reduced feature set. The default regularization parameter \( C \) was used to avoid overfitting, and cross-validation was applied to tune the hyperparameters.
+    \item \textbf{Training SVM}: The SVM model was trained using the same feature set with an RBF kernel. Hyperparameters such as the penalty parameter \( C \) and the kernel coefficient \( \gamma \) were fine-tuned using grid search and cross-validation to achieve optimal performance.
+\end{itemize}
+
+\subsection{5. Model Evaluation}
+The trained models were evaluated on the \textbf{test set} (20\% of the dataset) using the following performance metrics:
+\begin{itemize}
+    \item \textbf{Accuracy}: The proportion of correctly classified instances.
+    \item \textbf{Precision}: The ratio of true positives to the total number of predicted positives.
+    \item \textbf{Recall (Sensitivity)}: The ratio of true positives to the total number of actual positives.
+    \item \textbf{F1-Score}: The harmonic mean of precision and recall, providing a balanced evaluation of the model's performance.
+    \item \textbf{Confusion Matrix}: A confusion matrix was generated to visualize the number of true positives, true negatives, false positives, and false negatives.
+\end{itemize}
+
+The Logistic Regression model achieved an accuracy of \textbf{90\%}, serving as the baseline for comparison. However, the SVM model outperformed Logistic Regression, achieving a higher accuracy of \textbf{94\%}. The use of the RBF kernel allowed SVM to capture more complex patterns in the data, leading to better classification of malignant and benign tumors.
+
+\subsection{6. Cross-Validation}
+To ensure the model's robustness and avoid overfitting, \textbf{k-fold cross-validation} was applied. The dataset was split into 5 folds, with each fold used as a test set once, while the remaining four folds served as the training set. The average accuracy and other performance metrics across all folds were calculated to provide a more reliable estimate of the model's generalization capability.
+
+\subsection{7. Model Interpretation}
+While SVM provided superior performance, Logistic Regression was retained as an interpretable model. The coefficients of the Logistic Regression model provided insights into which features (or principal components) contributed most to the classification, offering valuable information for medical professionals who prefer transparent and explainable models.
+
+\section{Conclusion}
+This project demonstrates the application of machine learning techniques for the prediction of breast cancer, utilizing the Wisconsin Diagnostic Breast Cancer (WDBC) dataset. The primary goal was to develop a model capable of accurately classifying tumors as malignant or benign based on various diagnostic features. \textbf{Principal Component Analysis (PCA)} played a crucial role in reducing the dataset's dimensionality, simplifying the model, and preventing overfitting while retaining critical information. By reducing the number of features from 30 to around 10, PCA made the training process more efficient without compromising the model’s performance.
+
+Two classification algorithms were implemented: \textbf{Logistic Regression} and \textbf{Support Vector Machine (SVM)}. Logistic Regression, though effective, served as a baseline, achieving an accuracy of \textbf{90\%}. The SVM model, particularly with the \textbf{Radial Basis Function (RBF)} kernel, outperformed Logistic Regression, achieving an accuracy of \textbf{94\%}, demonstrating its ability to capture non-linear relationships in complex medical data.
+
+The findings of this project highlight the potential of machine learning in medical diagnostics, specifically in breast cancer detection, where early and accurate classification can significantly impact patient outcomes. The use of machine learning can complement medical expertise by providing reliable decision-support tools, reducing diagnostic errors.
+
+Future improvements could include:
+\begin{itemize}
+    \item Leveraging \textbf{larger and more diverse datasets} to improve the generalization of the model.
+    \item Experimenting with more advanced machine learning techniques such as \textbf{deep learning} or \textbf{ensemble methods} to further enhance accuracy.
+    \item Integrating \textbf{explainable AI} methods to ensure that the model's predictions are interpretable and trustworthy by medical professionals.
+\end{itemize}
+
+Overall, this project underscores the growing potential of machine learning in healthcare, especially for critical tasks like cancer diagnosis.
+
+\end{document}
